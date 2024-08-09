@@ -4,7 +4,7 @@ import { getSignedUrl } from "@aws-sdk/s3-request-presigner";
 import { S3Client, PutObjectCommand } from "@aws-sdk/client-s3";
 import styles from "./page.module.css";
 import NextAuthProvider from "@/components/nextAuthProvider";
-import SessionTest from "@/components/sessionTest";
+import SignIn from "@/components/signIn";
 
 export default async function Home() {
     const command = new PutObjectCommand({
@@ -17,7 +17,7 @@ export default async function Home() {
         <main className={styles.main}>
             <NextAuthProvider>
                 <Form url={url} />
-                <SessionTest />
+                <SignIn />
             </NextAuthProvider>
         </main>
     );
