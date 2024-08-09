@@ -1,23 +1,30 @@
 "use client";
 
-import { useSession, signIn as authSignIn, signOut as authSignOut } from "next-auth/react";
+import { useSession, signIn, signOut } from "next-auth/react";
+import Button from "./button";
 
-export default function ClientComponent() {
+type SignInProps = {
+    children?: React.ReactNode;
+};
+
+export default function SignIn({ children }: SignInProps) {
     const { data: session, status } = useSession();
 
-    function signOut() {
-        authSignOut();
-    }
-
-    function signIn() {
-        authSignIn(); // Dies leitet automatisch zur Seite /api/auth/signin
-    }
-
-    return (
-        <div>
-            {status === "authenticated" ? <button onClick={() => signOut()}>Sign out</button> : <button onClick={() => signIn()}>Sign in</button>}
+    const authenticated = (
+        <>
+            {children}
+            <Button onClick={() => signOut()}>Sign out</Button>
             <br></br>
-            {status} {status === "authenticated" && session.user?.name}
-        </div>
+            Username: {status === "authenticated" && session.user?.name}
+        </>
     );
+
+    const unauthenticated = (
+        <>
+            <h1 className="text-4xl font-bold">Welcome to Totalstudio</h1>
+            <Button onClick={() => signIn()}>Sign in</Button>
+        </>
+    );
+
+    return <div className="flex flex-col gap-4">{status === "authenticated" ? authenticated : unauthenticated}</div>;
 }

@@ -1,7 +1,6 @@
 "use client";
 
 import { FormEvent } from "react";
-import styles from "./form.module.css";
 
 export default function Form({ url }: { url: string }) {
     async function handleSubmit(e: FormEvent<HTMLFormElement>) {
@@ -23,7 +22,7 @@ export default function Form({ url }: { url: string }) {
 
     return (
         <form
-            className={styles.form}
+            className="bg-slate-600 p-4 rounded-md"
             onSubmit={async (e) => {
                 e.preventDefault();
 
