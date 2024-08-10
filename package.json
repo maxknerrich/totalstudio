@@ -35,6 +35,8 @@
   },
   "type": "module",
   "dependencies": {
+    "@aws-sdk/client-s3": "^3.637.0",
+    "@aws-sdk/s3-request-presigner": "^3.637.0",
     "sst": "3.0.70",
     "svelte-kit-sst": "2.43.5"
   }
