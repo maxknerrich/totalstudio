@@ -40,6 +40,8 @@
     "@aws-sdk/s3-request-presigner": "^3.637.0",
     "@babel/runtime": "^7.25.4",
     "@milkdown/crepe": "^7.5.5",
+    "@milkdown/kit": "^7.5.5",
+    "@milkdown/theme-nord": "^7.5.0",
     "sst": "3.0.70",
     "svelte-kit-sst": "2.43.5"
   }
