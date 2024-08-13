@@ -8,7 +8,7 @@
 	import { collab } from '@milkdown/plugin-collab';
 	let crepe: Crepe | undefined;
 
-	export let defaultValue = '# Moin';
+	export let defaultValue = '';
 	export let enableCollab = false;
 
 	onMount(() => {
@@ -41,7 +41,7 @@
 	});
 
 
-	function getMarkdown() {
+	export function getMarkdown() {
 		return crepe?.editor.action((ctx) => {
 			const editorView = ctx.get(editorViewCtx);
 			const serializer = ctx.get(serializerCtx);
@@ -50,7 +50,7 @@
 		});
 	}
 
-	function getJson() {
+	export function getJson() {
 		return crepe?.editor.action((ctx) => {
 			const editorView = ctx.get(editorViewCtx);
 			const json = editorView.state.doc.toJSON();
@@ -61,8 +61,6 @@
 
 <div id="editor"></div>
 
-<button on:click={() => console.log(getMarkdown())}>Get Markdown</button>
-<button on:click={() => console.log(getJson())}>Get Json</button>
 
 <style>
 :global(.ProseMirror-yjs-cursor) {
@@ -91,5 +89,9 @@
   padding-left: 2px;
   padding-right: 2px;
   white-space: nowrap;
+}
+#editor {
+	border-radius: 8px;
+	overflow: auto;
 }
 </style>
