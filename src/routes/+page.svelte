@@ -2,11 +2,13 @@
 	/** @type {import('./$types').PageData} */
 	import { SignIn, SignOut } from '@auth/sveltekit/components';
 	import { page } from '$app/stores';
-	
+	import { signIn, signOut } from '@auth/sveltekit/client';
+
 	export let data;
 
-	const files = data.files;
+	const { files, user } = data;
 
+	console.log({ files, user });
 </script>
 
 <nav>
@@ -18,29 +20,12 @@
 		<a href="/edit/{file}">{file}</a>
 	{/each}
 </div>
-<!-- <section>
-	<form on:submit|preventDefault={handleSubmit}>
-		<input name="file" type="file" accept="image/png, image/jpeg" />
-		<button type="submit">Download</button>
-	</form>
-	<h1>SvelteKit Auth Example</h1>
-	<div>
-		{#if $page.data.session}
-			{#if $page.data.session.user?.image}
-				<img src={$page.data.session.user.image} class="avatar" alt="User Avatar" />
-			{/if}
-			<span class="signedInText">
-				<small>Signed in as</small><br />
-				<strong>{$page.data.session.user?.name ?? 'User'}</strong>
-			</span>
-			<SignOut>
-				<div slot="submitButton" class="buttonPrimary">Sign out</div>
-			</SignOut>
-		{:else}
-			<span class="notSignedInText">You are not signed in</span>
-			<SignIn provider="google" />
-		{/if}
-	</div>
+<section>
+	<h1>User</h1>
+	<p>{user?.name}</p>
+	<p>{user?.email}</p>
+	<img src={user?.image} alt={user?.name} />
+	<button on:click={() => signOut()}>Sign Out</button>
 </section>
 
 <style>
@@ -52,9 +37,7 @@
 		flex-direction: column;
 		justify-content: center;
 	}
-</style> -->
 
-<style>
 	nav {
 		display: flex;
 		justify-content: space-between;
