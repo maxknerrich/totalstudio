@@ -4,12 +4,12 @@
 	import '@milkdown/crepe/theme/common/style.css';
 	import '@milkdown/crepe/theme/nord-dark.css';
 	import { editorViewCtx, serializerCtx } from '@milkdown/kit/core';
-	import { imageUpload } from '$lib'
-	import { gfm } from '@milkdown/kit/preset/gfm';
-
+	import { imageUpload, setupCollab } from '$lib'
+	import { collab } from '@milkdown/plugin-collab';
 	let crepe: Crepe | undefined;
 
 	export let defaultValue = '# Moin';
+	export let enableCollab = false;
 
 	onMount(() => {
 		crepe = new Crepe({
@@ -27,13 +27,19 @@
 			defaultValue: defaultValue
 		});
 
-		crepe.create();
+		if (enableCollab) {			
+			crepe.editor.use(collab);
+			crepe.create().then(() => setupCollab(crepe));
+		} else {
+			crepe.create();
+		}
 
 		return () => {
 			if (!crepe) return;
 			crepe.destroy();
 		};
 	});
+
 
 	function getMarkdown() {
 		return crepe?.editor.action((ctx) => {
@@ -57,3 +63,33 @@
 
 <button on:click={() => console.log(getMarkdown())}>Get Markdown</button>
 <button on:click={() => console.log(getJson())}>Get Json</button>
+
+<style>
+:global(.ProseMirror-yjs-cursor) {
+  position: relative;
+  margin-left: -1px;
+  margin-right: -1px;
+  border-left: 1px solid black;
+  border-right: 1px solid black;
+  border-color: orange;
+  word-break: normal;
+  pointer-events: none;
+}
+/* This renders the username above the caret */
+:global(.ProseMirror-yjs-cursor > div) {
+  position: absolute;
+  top: -1.05em;
+  left: -1px;
+  font-size: 13px;
+  background-color: rgb(250, 129, 0);
+  font-family: serif;
+  font-style: normal;
+  font-weight: normal;
+  line-height: normal;
+  user-select: none;
+  color: white;
+  padding-left: 2px;
+  padding-right: 2px;
+  white-space: nowrap;
+}
+</style>
