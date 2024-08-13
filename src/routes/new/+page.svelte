@@ -14,8 +14,8 @@
 </script>
 
 <nav>
-	<h1>Edit Page</h1>
 	<form method="POST" use:enhance={handleFormSubmit}>
+		<input type="text" name="title" placeholder="Title"/>
 		<button type="submit">Save</button>
 	</form>
 </nav>
