@@ -18,3 +18,27 @@ export async function load({params}) {
 		text: fileBuffer.toString()
 	};
 }
+
+/** @type {import('./$types').Actions} */
+export const actions = {
+	default: async ({ request, params }) => {
+		const data = await request.formData();
+
+		const text = data.get('text') as string;
+		const file = params.file;
+
+		if (!text || !file) {
+			return { type: 'error', status: 400 };
+		}
+
+		const filePath = path.join('static/files', file + '.md');
+		
+		if(!fs.existsSync(filePath)) {
+			return { type: 'error', status: 404 };
+		}
+
+		fs.writeFileSync(filePath, text);
+
+		return { type: 'success', status: 200 };
+	}
+}
