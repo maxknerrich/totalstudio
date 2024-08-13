@@ -1,27 +1,24 @@
 <script>
 	/** @type {import('./$types').PageData} */
-	export let data;
 	import { SignIn, SignOut } from '@auth/sveltekit/components';
 	import { page } from '$app/stores';
+	
+	export let data;
 
-	const handleSubmit = async (e) => {
-		const formData = new FormData(e.target);
-		const file = formData.get('file');
+	const files = data.files;
 
-		const image = await fetch(data.url, {
-			body: file,
-			method: 'PUT',
-			headers: {
-				'Content-Type': file.type,
-				'Content-Disposition': `attachment; filename="${file.name}"`
-			}
-		});
-
-		window.location.href = image.url.split('?')[0];
-	};
 </script>
 
-<section>
+<nav>
+	<h1>Pages</h1>
+	<a href="/new">Create New Page</a>
+</nav>
+<div>
+	{#each files as file}
+		<a href="/edit/{file}">{file}</a>
+	{/each}
+</div>
+<!-- <section>
 	<form on:submit|preventDefault={handleSubmit}>
 		<input name="file" type="file" accept="image/png, image/jpeg" />
 		<button type="submit">Download</button>
@@ -54,5 +51,13 @@
 		align-items: center;
 		flex-direction: column;
 		justify-content: center;
+	}
+</style> -->
+
+<style>
+	nav {
+		display: flex;
+		justify-content: space-between;
+		align-items: baseline;
 	}
 </style>
