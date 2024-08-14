@@ -1,6 +1,6 @@
 import path from "path";
 import fs from "fs";
-import { error } from "@sveltejs/kit";
+import { error, redirect } from "@sveltejs/kit";
 
 /** @type {import('./$types').PageServerLoad} */
 export async function load({params}) {
@@ -40,6 +40,6 @@ export const actions = {
 
 		fs.writeFileSync(filePath, text);
 
-		return { type: 'success', status: 200 };
+		throw redirect(307, '/');
 	}
 }
