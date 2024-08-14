@@ -8,17 +8,25 @@ export const actions = {
 		const data = await request.formData();
 
 		const text = data.get('text') as string;
-		const file = data.get('title') as string;
+		const title = data.get('title') as string;
 
-		
+		//slugify title
+		const file = title
+			.toLowerCase()
+			.replace(/[^\w ]+/g, '')
+			.replace(/ +/g, '-');
+			
 		if (!text) {
 			return { type: 'error', status: 400 };
 		}
 		
 		const filePath = path.join('static/files', file + '.md');
 		
-		fs.writeFileSync(filePath, text);
-
+		try {
+			fs.writeFileSync(filePath, text);
+		} catch (err) {
+			return { type: 'error', status: 500 };
+		}
 		//redirect back to home page after creating new file
 		throw redirect(307, '/');
 		
