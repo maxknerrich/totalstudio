@@ -12,17 +12,33 @@
 	</nav>
 	<pages>
 	{#each files as file}
-		<a href="/edit/{file}">{file}</a>
+		<a href="/edit/{file}"><div>{file}</div></a>
 	{/each}
 	</pages>
 </section>
 
 <style>
+	pages {
+		display: flex;
+		gap: 16px;
+		flex-wrap: wrap;
+		margin-top: 24px;
+	}
 	pages a {
 		background-color: rgba(255, 255, 255, .05);
-		display: block;
-		padding: 8px 16px;
+		padding: 16px;
 		border-radius: 8px;
-		margin-top: 24px;
+		display: flex;
+		width: 100%;
+		height: 100px;
+		font-size: 1.5rem;
+		text-decoration: none;
+		align-items: center;
+	}
+	
+	pages div {
+		text-overflow: ellipsis;
+		white-space: nowrap;
+		overflow: hidden;
 	}
 </style>
