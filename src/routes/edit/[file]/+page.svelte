@@ -5,7 +5,7 @@
 
 	let EditorComponent;
 	export let data;
-	const { text } = data;
+	const { text, file } = data;
 
 	const handleFormSubmit: SubmitFunction = async ({ formData }) => {
 		const markdown = EditorComponent.getMarkdown(); // Get markdown from the editor
@@ -14,7 +14,7 @@
 </script>
 
 <nav>
-	<h1>Edit Page</h1>
+	<h1>Edit <mark>{file}</mark></h1>
 	<form method="POST" use:enhance={handleFormSubmit}>
 		<button type="submit">Save</button>
 	</form>
@@ -26,5 +26,9 @@
 		display: flex;
 		justify-content: space-between;
 		align-items: center;
+	}
+	mark {
+		color: var(--pico-primary);
+		background-color: transparent;
 	}
 </style>

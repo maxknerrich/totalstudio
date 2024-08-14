@@ -15,7 +15,8 @@ export async function load({params}) {
 	const fileBuffer = fs.readFileSync(filePath);
 
 	return {
-		text: fileBuffer.toString()
+		text: fileBuffer.toString(),
+		file
 	};
 }
 
