@@ -13,18 +13,24 @@
 	};
 </script>
 
-<nav>
-	<form method="POST" use:enhance={handleFormSubmit}>
+<form method="POST" use:enhance={handleFormSubmit}>
 		<input type="text" name="title" placeholder="Title"/>
 		<button type="submit">Save</button>
-	</form>
-</nav>
+</form>
 <Editor defaultValue={text} bind:this={EditorComponent}></Editor>
 
 <style>
-	nav {
+	form {
 		display: flex;
 		justify-content: space-between;
 		align-items: center;
+	}
+
+	input {
+		max-width: 500px;
+	}
+	button {
+		width: fit-content;
+		padding-inline: 24px;
 	}
 </style>
