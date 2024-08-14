@@ -24,6 +24,14 @@
 		align-items: baseline;
 		padding-block: 1rem;
 		margin-bottom: 64px;
+		flex-wrap: wrap;
+	}
+
+	@media (max-width: 768px) {
+		header.container {
+			gap: 32px;
+			flex-direction: column;
+		}
 	}
 	user {
 		display: flex;
