@@ -7,7 +7,6 @@ export const load: PageServerLoad = async ({ locals, url }: PageServerLoad) => {
 
 	if (!session?.user) {
 		if (!isAuthRoute) {
-			console.log('throw');
 			throw redirect(303, '/auth');
 		} else {
 			return null;
