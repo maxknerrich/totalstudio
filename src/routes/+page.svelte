@@ -2,7 +2,7 @@
 	/** @type {import('./$types').PageData} */
 	export let data;
 
-	const { files, id } = data;
+	const { files, id, viewURL } = data;
 
 </script>
 
@@ -16,8 +16,8 @@
 	<article>
 		<a href="/edit/{file}">{file}</a>
 		<div>
-			<a href="/view/{id}/{file}" class="secondary">View</a>
-			<a href="/view/{id}/{file}/pdf" class="secondary">Download PDF</a>
+			<a href="{viewURL}/{file}.html" target="_blank" class="secondary">View</a>
+			<a href="{viewURL}/{file}.pdf" target="_blank" class="secondary">Download PDF</a>
 		</div>
 	</article>
 	{/each}
