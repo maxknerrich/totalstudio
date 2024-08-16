@@ -22,7 +22,7 @@ export async function load({ parent, locals }) {
 		const response = await s3.send(command);
 
 		// Extract the file names from the response
-		const files = response.Contents?.map((item) => item.Key) || [];
+		const files = response.Contents?.map((item) => item.Key).filter((item) => item.endsWith('.md')) || [];
 
 		const filesWithoutMd = files.map((file) => file?.replace(id, '').replace('.md', ''));
 

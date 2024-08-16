@@ -96,25 +96,25 @@ export const actions = {
 
 		const putHTMLCommand = new PutObjectCommand({
 			Bucket: Resource.MyBucket.name,
-			Key: `${prefix + file}.html`,
+			Key: `${id + file}.html`,
 			ContentType: 'text/html',
 			Body: html
 		});
 
 		const putPDFCommand = new PutObjectCommand({
 			Bucket: Resource.MyBucket.name,
-			Key: `${prefix + file}.pdf`,
+			Key: `${id + file}.pdf`,
 			ContentType: 'application/pdf',
 			Body: pdf
 		})
 
 		try {
 			await Promise.all([s3.send(putCommand), s3.send(putHTMLCommand), s3.send(putPDFCommand)]);
-			throw redirect(307, '/');
-			return { type: 'success', status: 200 };
+			// return { type: 'success', status: 200 };
 		} catch (err) {
 			console.error('Error saving file to S3', err);
 			return { type: 'error', status: 500, message: 'Failed to save file to S3' };
 		}
+		throw redirect(307, '/');
 	}
 };
