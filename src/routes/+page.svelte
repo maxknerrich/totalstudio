@@ -3,7 +3,7 @@
 	export let data;
 
 	const { files, id } = data;
-	console.log(id)
+
 </script>
 
 <section class="container">
