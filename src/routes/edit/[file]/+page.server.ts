@@ -7,6 +7,7 @@ import {
 import { Resource } from 'sst';
 import { error, redirect } from '@sveltejs/kit';
 import { Readable } from 'stream';
+import { generateHTML, generatePDF } from '$lib/generate';
 
 const s3 = new S3Client({});
 
@@ -44,9 +45,9 @@ const fileExistsInS3 = async (bucketName: string, key: string): Promise<boolean>
 export async function load({ params, locals }) {
 	const { file } = params;
 	const session = await locals.auth();
-	const prefix = session?.user?.email + '/';
+	const id = session?.user?.email.split('@')[0] + '/';
 
-	const key = `${prefix + file}.md`;
+	const key = `${id + file}.md`;
 
 	try {
 		const command = new GetObjectCommand({ Bucket: Resource.MyBucket.name, Key: key });
@@ -68,13 +69,13 @@ export const actions = {
 		const file = params.file;
 
 		const session = await locals.auth();
-		const prefix = session?.user?.email + '/';
+		const id = session?.user?.email.split('@')[0] + '/';
 
 		if (!text || !file) {
 			return { type: 'error', status: 400 };
 		}
 
-		const key = `${prefix + file}.md`;
+		const key = `${id + file}.md`;
 
 		// Check if the file exists in S3
 		if (!(await fileExistsInS3(Resource.MyBucket.name, key))) {
@@ -89,9 +90,26 @@ export const actions = {
 			ContentType: 'text/markdown',
 			Body: text
 		});
+
+		const html = await generateHTML(text, file);
+		const pdf = await generatePDF(text);
+
+		const putHTMLCommand = new PutObjectCommand({
+			Bucket: Resource.MyBucket.name,
+			Key: `${prefix + file}.html`,
+			ContentType: 'text/html',
+			Body: html
+		});
+
+		const putPDFCommand = new PutObjectCommand({
+			Bucket: Resource.MyBucket.name,
+			Key: `${prefix + file}.pdf`,
+			ContentType: 'application/pdf',
+			Body: pdf
+		})
+
 		try {
-			// Execute the command to save the updated file
-			await s3.send(putCommand);
+			await Promise.all([s3.send(putCommand), s3.send(putHTMLCommand), s3.send(putPDFCommand)]);
 			throw redirect(307, '/');
 			return { type: 'success', status: 200 };
 		} catch (err) {

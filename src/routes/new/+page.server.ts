@@ -23,7 +23,8 @@ export const actions = {
 		}
 
 		// Generate the key for the markdown file
-		const key = `${session?.user?.email}/${file}.md`;
+		const id = session?.user?.email.split('@')[0];
+		const key = `${id}/${file}.md`;
 
 		// Create a PutObjectCommand to upload the markdown file
 		const command = new PutObjectCommand({

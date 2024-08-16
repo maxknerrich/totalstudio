@@ -6,7 +6,7 @@ export async function load({ parent, locals }) {
 	await parent();
 
 	const session = await locals.auth();
-	const prefix = session?.user?.email + '/';
+	const id = session?.user?.email.split('@')[0] + '/';
 
 	// Create an S3 client
 	const s3 = new S3Client({});
@@ -14,7 +14,7 @@ export async function load({ parent, locals }) {
 	// List the objects in the S3 bucket under the prefix
 	const command = new ListObjectsV2Command({
 		Bucket: Resource.MyBucket.name,
-		Prefix: prefix
+		Prefix: id
 	});
 
 	try {
@@ -24,7 +24,7 @@ export async function load({ parent, locals }) {
 		// Extract the file names from the response
 		const files = response.Contents?.map((item) => item.Key) || [];
 
-		const filesWithoutMd = files.map((file) => file?.replace(prefix, '').replace('.md', ''));
+		const filesWithoutMd = files.map((file) => file?.replace(id, '').replace('.md', ''));
 
 		return { files: filesWithoutMd };
 	} catch (err) {
