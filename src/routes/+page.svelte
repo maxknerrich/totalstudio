@@ -2,7 +2,8 @@
 	/** @type {import('./$types').PageData} */
 	export let data;
 
-	const { files } = data;
+	const { files, id } = data;
+	console.log(id)
 </script>
 
 <section class="container">
@@ -12,7 +13,13 @@
 	</nav>
 	<pages>
 	{#each files as file}
-		<a href="/edit/{file}"><div>{file}</div></a>
+	<article>
+		<a href="/edit/{file}">{file}</a>
+		<div>
+			<a href="/view/{id}/{file}" class="secondary">View</a>
+			<a href="/view/{id}/{file}/pdf" class="secondary">Download PDF</a>
+		</div>
+	</article>
 	{/each}
 	</pages>
 </section>
@@ -24,7 +31,7 @@
 		flex-wrap: wrap;
 		margin-top: 24px;
 	}
-	pages a {
+	pages article {
 		background-color: rgba(255, 255, 255, .05);
 		padding: 16px;
 		border-radius: 8px;
@@ -34,11 +41,15 @@
 		font-size: 1.5rem;
 		text-decoration: none;
 		align-items: center;
+		justify-content: space-between;
 	}
 	
-	pages div {
+	pages article a {
 		text-overflow: ellipsis;
 		white-space: nowrap;
 		overflow: hidden;
+	}
+	a.secondary {
+		font-size: 1rem;
 	}
 </style>
