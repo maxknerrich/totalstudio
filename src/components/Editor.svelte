@@ -4,7 +4,7 @@
 	import '@milkdown/crepe/theme/common/style.css';
 	import '@milkdown/crepe/theme/nord-dark.css';
 	import { editorViewCtx, serializerCtx } from '@milkdown/kit/core';
-	import { imageUpload, setupCollab } from '$lib'
+	import { imageUpload, setupCollab } from '$lib';
 	import { collab } from '@milkdown/plugin-collab';
 	let crepe: Crepe | undefined;
 
@@ -27,7 +27,7 @@
 			defaultValue: defaultValue
 		});
 
-		if (enableCollab) {			
+		if (enableCollab) {
 			crepe.editor.use(collab);
 			crepe.create().then(() => setupCollab(crepe));
 		} else {
@@ -39,7 +39,6 @@
 			crepe.destroy();
 		};
 	});
-
 
 	export function getMarkdown() {
 		return crepe?.editor.action((ctx) => {
@@ -61,36 +60,39 @@
 
 <div id="editor"></div>
 
-
 <style>
-:global(.ProseMirror-yjs-cursor) {
-  position: relative;
-  margin-left: -1px;
-  margin-right: -1px;
-  border-left: 1px solid black;
-  border-right: 1px solid black;
-  border-color: orange;
-  word-break: normal;
-  pointer-events: none;
-}
-/* This renders the username above the caret */
-:global(.ProseMirror-yjs-cursor > div) {
-  position: absolute;
-  top: -1.05em;
-  left: -1px;
-  font-size: 13px;
-  background-color: rgb(250, 129, 0);
-  font-family: serif;
-  font-style: normal;
-  font-weight: normal;
-  line-height: normal;
-  user-select: none;
-  color: white;
-  padding-left: 2px;
-  padding-right: 2px;
-  white-space: nowrap;
-}
-:global(.milkdown) {
-	border-radius: 8px;
-}
+	:global(.ProseMirror-yjs-cursor) {
+		position: relative;
+		margin-left: -1px;
+		margin-right: -1px;
+		border-left: 1px solid black;
+		border-right: 1px solid black;
+		border-color: orange;
+		word-break: normal;
+		pointer-events: none;
+	}
+	/* This renders the username above the caret */
+	:global(.ProseMirror-yjs-cursor > div) {
+		position: absolute;
+		top: -1.05em;
+		left: -1px;
+		font-size: 13px;
+		background-color: rgb(250, 129, 0);
+		font-family: serif;
+		font-style: normal;
+		font-weight: normal;
+		line-height: normal;
+		user-select: none;
+		color: white;
+		padding-left: 2px;
+		padding-right: 2px;
+		white-space: nowrap;
+	}
+	:global(.milkdown) {
+		border-radius: 8px;
+	}
+
+	#editor {
+		overflow: visible;
+	}
 </style>
