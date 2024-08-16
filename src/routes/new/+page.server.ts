@@ -1,3 +1,4 @@
+import { generateHTML, generatePDF } from '$lib/generate';
 import { S3Client, PutObjectCommand } from '@aws-sdk/client-s3';
 import { redirect } from '@sveltejs/kit';
 import { Resource } from 'sst';
@@ -23,8 +24,8 @@ export const actions = {
 		}
 
 		// Generate the key for the markdown file
-		const id = session?.user?.email.split('@')[0];
-		const key = `${id}/${file}.md`;
+		const id = session?.user?.email.split('@')[0] + '/';
+		const key = `${id}${file}.md`;
 
 		// Create a PutObjectCommand to upload the markdown file
 		const command = new PutObjectCommand({
@@ -37,9 +38,27 @@ export const actions = {
 		// Create an S3 client
 		const s3 = new S3Client({});
 
+		const html = await generateHTML(text, file);
+		const pdf = await generatePDF(text);
+
+		const putHTMLCommand = new PutObjectCommand({
+			Bucket: Resource.MyBucket.name,
+			Key: `${id + file}.html`,
+			ContentType: 'text/html',
+			Body: html
+		});
+
+		const putPDFCommand = new PutObjectCommand({
+			Bucket: Resource.MyBucket.name,
+			Key: `${id + file}.pdf`,
+			ContentType: 'application/pdf',
+			Body: pdf
+		})
+			
+
 		try {
 			// Execute the command to upload the file
-			await s3.send(command);
+			await Promise.all([s3.send(command), s3.send(putHTMLCommand), s3.send(putPDFCommand)]);
 		} catch (err) {
 			console.error('Error uploading file to S3', err);
 			return { type: 'error', status: 500, message: 'Failed to save file to S3' };
