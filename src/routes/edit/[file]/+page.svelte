@@ -1,9 +1,9 @@
 <script lang="ts">
-	import { enhance } from "$app/forms";
-	import Editor from "$components/Editor.svelte";
-	import type { SubmitFunction } from "@sveltejs/kit";
+	import { enhance } from '$app/forms';
+	import Editor from '$components/Editor.svelte';
+	import type { SubmitFunction } from '@sveltejs/kit';
 
-	let EditorComponent;
+	let EditorComponent: any;
 	export let data;
 	const { text, file } = data;
 

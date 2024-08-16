@@ -1,10 +1,10 @@
-import rehypeSanitize from 'rehype-sanitize'
-import rehypeStringify from 'rehype-stringify'
-import remarkParse from 'remark-parse'
-import remarkRehype from 'remark-rehype'
-import {unified} from 'unified'
-import path from "path";
-import fs from "fs";
+import rehypeSanitize from 'rehype-sanitize';
+import rehypeStringify from 'rehype-stringify';
+import remarkParse from 'remark-parse';
+import remarkRehype from 'remark-rehype';
+import { unified } from 'unified';
+import path from 'path';
+import fs from 'fs';
 
 export const GET = async ({ params }) => {
 	const { file } = params;
@@ -21,17 +21,15 @@ export const GET = async ({ params }) => {
 
 	//turn md into html using remark
 	const html = await unified()
-	.use(remarkParse)
-	.use(remarkRehype)
-	.use(rehypeSanitize)
-	.use(rehypeStringify)
-	.process(fileBuffer.toString());
-
-	console.log(html);
+		.use(remarkParse)
+		.use(remarkRehype)
+		.use(rehypeSanitize)
+		.use(rehypeStringify)
+		.process(fileBuffer.toString());
 
 	return new Response(html.toString(), {
 		headers: {
 			'Content-Type': 'text/html'
 		}
 	});
-}
+};
