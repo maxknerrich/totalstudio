@@ -14,9 +14,6 @@
 	onMount(() => {
 		crepe = new Crepe({
 			root: document.getElementById('editor'),
-			features: {
-				"image-block": false,
-			},
 			featureConfigs: {
 				'image-block': {
 					async blockOnUpload(file) {
@@ -93,8 +90,7 @@
   padding-right: 2px;
   white-space: nowrap;
 }
-#editor {
+:global(.milkdown) {
 	border-radius: 8px;
-	overflow: auto;
 }
 </style>
