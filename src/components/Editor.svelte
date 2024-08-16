@@ -14,6 +14,9 @@
 	onMount(() => {
 		crepe = new Crepe({
 			root: document.getElementById('editor'),
+			features: {
+				"image-block": false,
+			},
 			featureConfigs: {
 				'image-block': {
 					async blockOnUpload(file) {
